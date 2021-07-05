@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>歌曲评论</title>
+    <link rel="stylesheet" type="text/css" href="/css/comment.css" />
+    <link rel="stylesheet" href="/fontawesome/font-awesome.css">
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.css">
+    <script src="/js/single_playlist_info.js"></script>
+</head>
+
+<body>
+<div th:replace="share_layout/nav"></div>
+    <div id="shadow">
+    </div>
+    <div class="add_toMylist">
+        <div class="words">
+            <span>添加到我的歌单</span>
+            <span class="close"> <i class="fa fa-times" aria-hidden="true"></i></span>
+        </div>
+    </div>
+    <div class="mcontainer">
+        <div class="header">
+            <div class="header_left">
+                <img th:src="${picture_url}" width="130" height="130">
+            </div>
+            <div class="header_right">
+                <div class="row1">
+                    <span class="music_box">歌曲</span>
+                    <span class="music_name" th:text="${songname}"></span>
+                </div>
+                <div class="row2">
+                    <span class="singer" th:text="${singer}"></span>
+                </div>
+            </div>
+        </div>
+
+        <form role="form" method="POST">
+            <div class="form-group">
+                <label for="name">正文：</label>
+                <textarea name="comment" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">发表评论</button>
+                </div>
+            </div>
+            <input type="hidden" name="song" th:value="${songid}">
+        </form>
+
+        <div class="comment-wrapper">
+            <div class="comment-header">
+                评论<span class="comment-num"  th:text="${counts}">0</span>
+            </div>
+        </div>
+
+        <div class="commentlist-container">
+            <ol class="commentlist">
+
+
+            <tr th:each="each : ${comments_result}">
+
+                <li class="comment">
+
+                        <div class="comment-author">
+                            <img src="/images/user_icon.jpg" th:alt="${each.author}" class="userimg">
+                            <span class="authorname"  th:text="${each.author}">用户</span>
+                        </div>
+
+                        <div class="comment-date" th:text="${each.time}">时间</div>
+                    <div class="comment-body" th:text="${each.body}">"用户评论"</div>
+                </li>
+
+             </tr>
+
+            </ol>
+        </div>
+    </div>
+
+
+
+<div th:replace="share_layout/footer"></div>
+</body>
+
+</html>

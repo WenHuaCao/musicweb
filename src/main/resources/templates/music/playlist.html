@@ -1,0 +1,89 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<head>
+    
+    <meta content="text/html;charset=utf-8">
+    <title>歌单</title>
+    <link rel="stylesheet" href="/css/playlist.css" type="text/css" />
+    <!-- <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/5.8.2/css/all.css" type="text/css" /> -->
+    <link rel="stylesheet" href="/fontawesome/font-awesome.css">
+    <script  th:inline="javascript">
+        // selfcreated_playlist = null;
+        // collection_playlist = null;
+        // $.ajaxSetup({async:false});
+        // $.getJSON("/selfcreated_playlist",function(data) {
+        //     selfcreated_playlist = data
+        // })
+        // $.getJSON("/collection_playlist",function(data) {
+        //     collection_playlist = data
+        // })
+        selfcreated_playlist = JSON.parse([[${build_result}]].replace(/&#39;/g, '"').replace(/&quot;/g, '"'))
+        collection_playlist = JSON.parse([[${collect_result}]].replace(/&#39;/g, '"').replace(/&quot;/g, '"') )
+        var success = [[${success}]];
+        if (success == '0') {
+            alert('无法删除系统默认歌单！');
+        }
+        else if (success == '1') {
+            alert('删除自建歌单成功！');
+        }
+        else if (success == '2') {
+            alert('取消收藏歌单成功！');
+        }
+        else if (success == '3') {
+            alert('创建歌单成功！');
+        }
+    </script>
+    <script src="https://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js"> </script>
+    <script src="/js/playlist.js"></script>
+</head>
+<body>
+<div th:replace="share_layout/nav"></div>
+        <div class="container">
+        <a href="/mymusic/createlist/" target="_blank">
+        <div class="create"><input type="button" value="创建歌单" class="btn1"></div>
+        </a>
+
+
+        <div class="selfcreated_playlist">
+                <table>
+                        <caption>自创歌单</caption>
+                            <thead class="playList_header">
+                                <tr>
+                                    <td ></td>
+                                    <td class="playList_name">歌单名称</td>
+                                    <td class="playlist_createdTime">创建时间</td>
+                                    <td class="playlist_cnt">歌曲数</td> 
+                                    <td class="remove">移除</td>
+                                </tr> 
+                            </thead>
+                            <tbody class="playList_main">
+                                
+                                
+                            </tbody>
+                    </table>
+        </div>
+        <div class="hr"></div>
+        <div class="collection_playlist">
+            <table>
+                    <caption>收藏歌单</caption>
+                        <thead class="playList_header">
+                            <tr>
+                                <td ></td>
+                                <td class="playList_name">歌单名称</td>
+                                <td class="playlist_createdTime">创建时间</td>
+                                <td class="playlist_cnt">歌曲数</td>
+                                <td class="remove">移除</td>
+                            </tr> 
+                        </thead>
+                        <tbody class="playList_main">
+                            
+                            
+                        </tbody>
+                </table>
+    </div>
+    </div>
+    <div th:replace="share_layout/footer"></div>
+   
+</body>
+</html>

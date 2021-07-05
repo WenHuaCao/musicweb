@@ -1,0 +1,55 @@
+<!--<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">-->
+<!--<index th:fragment="common">-->
+
+
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="/css/searchBar.css">
+<script src="https://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js"> </script>
+<script type="text/javascript">
+    recommandMusic = '[[${recommandMusic}]]'.replace(/&#39;/g, '"').replace(/&quot;/g, '"')
+    recommandMusic = JSON.parse(recommandMusic);
+   /* recommandMusic = null
+    $.ajaxSetup({async:false});
+    $.getJSON("/recommend_music",function(data) {
+        console.log(data)
+        recommandMusic = data
+    })*/
+</script>
+
+
+<form action="/Search/?value=" method="GET" class="icon-search">
+    <div class="bar"></div>
+    <input type="text" name="value" id="search-text" class="form-search" autocomplete="off" spellcheck="false">
+    <!-- <input type="text" name="" hidden> -->
+
+    <button type="button" class="rs-btn"><i class="fa fa-times" aria-hidden="true"></i></button>
+</form>
+
+    <div>
+        <h1>推荐歌单</h1>
+        <div id="container">
+            <div id="img-box">
+                <div class="slider-block middle" >
+                </div>
+                <div class="slider-block right" >
+                </div>
+                <div class="slider-block left" >
+                </div>
+            </div>
+            <div id="toLeft"></div>
+            <div id="toRight"></div>
+            <div id="pointsContainer">
+                <div id="point1" class="points active"></div>
+                <div id="point1" class="points"></div>
+                <div id="point1" class="points"></div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    // 原因在于没有加上引号
+
+</script>
+    <script src="/js/index.js"></script>
+
+<!--</index>-->

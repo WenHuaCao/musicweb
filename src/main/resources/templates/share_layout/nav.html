@@ -1,0 +1,23 @@
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org">
+<!--<nav th:fragment="common">-->
+<link rel="stylesheet" href="/css/navigation.css"/>
+<div id="header_outer" width="20%">
+    <ul class="wrapper" id="nav">
+        <li><img src="/images/bk1.jpg"  id="logo"> </li>
+        <!-- <li class="nav_hover"><a href="">首页</a></li> -->
+        <li  th:class="${style0}" ><a href="/">首页</a></li>
+        <li th:class="${style1}" ><a href="/mymusic/">我的音乐</a></li>
+        <li th:class="${style2}"><a href="/upload/">音乐人</a></li>
+    </ul>
+
+    <div class="user-info">
+        <img class="user-icon" src="/images/user_icon.jpg" alt="">
+        <span class="user-name" th:text = "${username}"> 未知用户</span>
+        <a href="/logout/">
+        <span class="out">
+            <i class="fa fa-sign-out" aria-hidden="true"></i>
+        </span>退出
+    </a>
+    </div>
+</div>
+<!--</nav>-->
