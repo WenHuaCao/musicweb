@@ -17,6 +17,8 @@ import it.sauronsoftware.jave.MultimediaInfo;
 import lombok.experimental.var;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +40,7 @@ import java.util.Objects;
  */
 @Service
 @Slf4j
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MyService  implements MusicService {
     @Autowired
     SongMapper songmapper;
@@ -167,6 +170,7 @@ public class MyService  implements MusicService {
     后置：歌曲信息写入数据库，用户上传量加一，添加到用户上传的歌单
      */
     @Override
+    @Transactional
     public boolean uploadSong(Map map, HttpSession session, String songname, String singer, String album_name, MultipartFile song_file,
                               MultipartFile song_words_file, MultipartFile picture_file, List<String> errors) {
         String username = (String) session.getAttribute("username");
@@ -204,7 +208,8 @@ public class MyService  implements MusicService {
                 wordpath = myutil.writeFile("/upload/" + username + "/word/", id + "_" + songname + ".txt", song_words_file);
                 //存储歌词图片
                 picturepath = myutil.writeFile("/upload/" + username + "/pic/", id + "_" + picture_file.getOriginalFilename(), picture_file);
-                //将相关的信息写入数据库
+                if(!myutil.isImage("/upload/" + username + "/pic/", id + "_" + picture_file.getOriginalFilename()))throw new RuntimeException();
+                    //将相关的信息写入数据库
                 songmapper.update0(duration, picturepath, wordpath, file_url, id);
                 //用户的上传歌单中添加此关联
                 PlayList defaultplaylist = playlistmapper.selectPlayList4(user.getId(), user.getUsername() + "上传的音乐").get(0);
@@ -213,7 +218,8 @@ public class MyService  implements MusicService {
                 usermapper.updateUser1(user.getId());
             } catch (Exception e) {
                 map.put("alertBool", 0);
-                return false;
+                throw new RuntimeException();
+//                return false;
             }
             map.put("alertBool", 1);
             return true;
@@ -467,7 +473,7 @@ public class MyService  implements MusicService {
     @Override
     public String addSongList(int id, int userid) {
         Map<String, String> map = new HashMap<>();
-        if (playlistmapper.isCollect(userid, id) == 1) {
+        if (playlistmapper.isCollect(userid, id) == 0) {
             playlistmapper.collectPlayList(userid, id);
             map.put("message", "你成功收藏该歌单!");
         } else {

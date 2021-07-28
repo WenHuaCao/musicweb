@@ -77,7 +77,11 @@ public class SongController {
         }
         if(Objects.equals(song_words_file,null)) errors.set(4,"歌词txt文件未选择或者格式不是txt");
         if(Objects.equals(picture_file,null)) errors.set(5,"歌曲配图文件未选择");
-        myService.uploadSong(map,session,songname,singer,album_name,song_file,song_words_file,picture_file,errors);
+        try {
+            myService.uploadSong(map, session, songname, singer, album_name, song_file, song_words_file, picture_file, errors);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "music/upload";
     }
     @GetMapping(value =  "/Search")

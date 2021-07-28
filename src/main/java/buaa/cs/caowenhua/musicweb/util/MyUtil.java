@@ -7,6 +7,8 @@ import javafx.beans.binding.BooleanExpression;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -84,6 +86,7 @@ public class MyUtil {
         createParentPath(class_dir + uploadpath);
 //                Files.copy(song_file,source);
         file.transferTo(new File(class_dir + uploadpath, filename));
+        System.out.println(uploadpath+ filename);
         return uploadpath+ filename;
     }
 
@@ -91,6 +94,22 @@ public class MyUtil {
         String res = new MyUtil().fileToString("upload/sheyin/word/10_光年之外.txt");
         System.out.println(res);
     }
+
+    public boolean isImage(String filepath,String filename){
+        File file = new File(class_dir + filepath, filename);
+        try {
+            // 通过ImageReader来解码这个file并返回一个BufferedImage对象
+            // 如果找不到合适的ImageReader则会返回null，我们可以认为这不是图片文件
+            // 或者在解析过程中报错，也返回false
+            Image image = ImageIO.read(file);
+            return image != null;
+        } catch(IOException ex) {
+            return false;
+        }
+
+    }
+
+
     public String fileToString(String filepath) {
         filepath =class_dir + filepath;
         filepath = filepath.replace("\\","/");
